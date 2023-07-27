@@ -245,7 +245,10 @@ class MessageStore(object):
         obj_query = self.to_query_dict(req.message_query, req.meta_query)
 
         # restrict results to have the type asked for
-        obj_query["_meta.stored_type"] = req.type
+        if req.type == '':
+            rospy.logwarn('query messages with null "_meta.stored_type"')
+        else:
+            obj_query["_meta.stored_type"] = req.type
 
         # TODO start using some string constants!
 
